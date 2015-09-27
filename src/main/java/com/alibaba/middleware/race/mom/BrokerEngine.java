@@ -325,7 +325,7 @@ public class BrokerEngine {
 		}
 		
 		// write into fileSystem
-		fileEngine.writeRelation(gid , topic , filterStr , filterKey , filterKeyStr);
+//		fileEngine.writeRelation(gid , topic , filterStr , filterKey , filterKeyStr);
 	}
 	
 	private void unsubscribeTopic(Channel channel, String topic) 
@@ -352,7 +352,7 @@ public class BrokerEngine {
 				String msgGroupID = channelGroupIdMap.get(channel);
 				accumulateQueue.remove(msg.getMsgId());
 				// fileEngine record ack Msg
-				fileEngine.onMessageConsumed(msg.getMsgId() , groupIDTopicMap.get(msgGroupID), msgGroupID, true);
+//				fileEngine.onMessageConsumed(msg.getMsgId() , groupIDTopicMap.get(msgGroupID), msgGroupID, true);
 				return;
 			}
 		}
@@ -407,8 +407,7 @@ public class BrokerEngine {
 	 */
 	public void onMessageReceived(Message msg, Channel channel){
 		LOG.info("get Message! id: " + msg.getMsgId());
-		int msgIndex = Integer.parseInt(msg.getMsgId()) % 3;
-		storeExecutor.submit(new MessageStore(fileEngine , this.queueManager ,  msg , channel));
+//		storeExecutor.submit(new MessageStore(fileEngine , this.queueManager ,  msg , channel));
 		
 		// fileEngine register sendMsg's topic
 		// file store in msgr
@@ -425,7 +424,7 @@ public class BrokerEngine {
 		
 		//TODO below is for test purpose
 //		call back of store success , move in the fileEngine
-//		onMessageWritten(msg, channel);
+		onMessageWritten(msg, channel);
 	}
 	
 	/**
@@ -603,7 +602,7 @@ public class BrokerEngine {
 	}
 	
 	public static void main(String[] args) {
-		LogManager.getLogManager().reset();	//TODO: temp
+//		LogManager.getLogManager().reset();	//TODO: temp
 		try {
 			BrokerEngine.getInstance().start();
 		} catch (InterruptedException e) {

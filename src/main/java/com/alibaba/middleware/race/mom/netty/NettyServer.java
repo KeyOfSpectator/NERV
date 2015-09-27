@@ -76,29 +76,29 @@ public final class NettyServer {
                  public void initChannel(SocketChannel ch) throws Exception {
                 	 ch.closeFuture().addListener(new ChannelCloseListener(ch));
                 	 
-//                	 KryoPool kryoPool = new KryoPool();
-                     ChannelPipeline p = ch.pipeline();
-//                     p.addLast(new KryoEncoder(kryoPool));
-//                     p.addLast(new KryoDecoder(kryoPool));
-//                     p.addLast(new NettyServerHandler());
+                	 ChannelPipeline p = ch.pipeline();
+                	   KryoPool kryoPool = new KryoPool();
+                     p.addLast(new KryoEncoder(kryoPool));
+                     p.addLast(new KryoDecoder(kryoPool));
+                     p.addLast(new NettyServerHandler());
                      
-                     /**
-                      * http-request解码器
-                      * http服务器端对request解码
-                      */
-                     p.addLast("decoder", new HttpRequestDecoder());
-                     
-                     p.addLast("servercodec",new HttpServerCodec()); 
-                     p.addLast("aggegator",new HttpObjectAggregator(1024*1024*64));//定义缓冲数据量 
-                     
-                     // httpRequestHandler
-                     p.addLast(new HttpRequestHandler());
-                     
-                     /**
-                      * http-response解码器
-                      * http服务器端对response编码
-                      */
-                     p.addLast("encoder", new HttpResponseEncoder());
+//                     /**
+//                      * http-request解码器
+//                      * http服务器端对request解码
+//                      */
+//                     p.addLast("decoder", new HttpRequestDecoder());
+//                     
+//                     p.addLast("servercodec",new HttpServerCodec()); 
+//                     p.addLast("aggegator",new HttpObjectAggregator(1024*1024*64));//定义缓冲数据量 
+//                     
+//                     // httpRequestHandler
+//                     p.addLast(new HttpRequestHandler());
+//                     
+//                     /**
+//                      * http-response解码器
+//                      * http服务器端对response编码
+//                      */
+//                     p.addLast("encoder", new HttpResponseEncoder());
                  }
              });
 
@@ -131,7 +131,7 @@ public final class NettyServer {
     	}
     	@Override
     	public void operationComplete(Future<? super Void> future) throws Exception {
-    		brokerEngine.channelUnregister(channel);
+//    		brokerEngine.channelUnregister(channel);
     	}
     }
 }

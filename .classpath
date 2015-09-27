@@ -22,15 +22,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry combineaccessrules="false" kind="src" path="/rocketmq-broker"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/rocketmq-client"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/rocketmq-common"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/rocketmq-example"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/rocketmq-filtersrv"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/rocketmq-namesrv"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/rocketmq-remoting"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/rocketmq-srvutil"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/rocketmq-store"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/rocketmq-tools"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

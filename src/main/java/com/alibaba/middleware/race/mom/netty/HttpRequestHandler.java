@@ -17,7 +17,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Logger;
 import java.util.Set;
+
+import com.alibaba.middleware.race.mom.BrokerEngine;
+//import com.alibaba.middleware.race.mom.MessageHandler;
 
 import static io.netty.handler.codec.http.HttpHeaders.Names.*;
 import static io.netty.handler.codec.http.HttpResponseStatus.*;
@@ -25,6 +29,8 @@ import static io.netty.handler.codec.http.HttpVersion.*;
  
 public class HttpRequestHandler extends SimpleChannelInboundHandler<Object> {
 
+	private static final Logger LOG = Logger.getLogger(NettyServerHandler.class.getCanonicalName());
+	
     private HttpRequest request;
     /** Buffer that stores the response content */
     private final StringBuilder buf = new StringBuilder();
@@ -38,13 +44,13 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<Object> {
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) {
         if (msg instanceof HttpRequest) {
             HttpRequest request = this.request = (HttpRequest) msg;
-
+            
             if (HttpHeaders.is100ContinueExpected(request)) {
                 send100Continue(ctx);
             }
 
             buf.setLength(0);
-            buf.append("WELCOME TO THE WILD WILD WEB SERVER\r\n");
+            buf.append("WELCOME TO NERV MQ SERVER\r\n");
             buf.append("===================================\r\n");
 
             buf.append("VERSION: ").append(request.getProtocolVersion()).append("\r\n");
@@ -76,14 +82,18 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<Object> {
 
             appendDecoderResult(buf, request);
         }
-
+        
+//		content
         if (msg instanceof HttpContent) {
             HttpContent httpContent = (HttpContent) msg;
 
             ByteBuf content = httpContent.content();
             if (content.isReadable()) {
-            	String test = content.toString(CharsetUtil.UTF_8);
-            	System.out.println(test);
+            	String jsonStr = content.toString(CharsetUtil.UTF_8);
+            	this.LOG.info("json read: \r\n" + jsonStr);
+//            	MessageHandler messageHandler = new MessageHandler();
+//            	messageHandler.messageHandler(jsonStr , ctx);
+            	
                 buf.append("CONTENT: ");
                 buf.append(content.toString(CharsetUtil.UTF_8));
                 buf.append("\r\n");
@@ -174,4 +184,5 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<Object> {
         cause.printStackTrace();
         ctx.close();
     }
+    
 }
